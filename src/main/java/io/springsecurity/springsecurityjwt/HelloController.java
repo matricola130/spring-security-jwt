@@ -1,5 +1,6 @@
 package io.springsecurity.springsecurityjwt;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import io.springsecurity.springsecurityjwt.models.AuthenticationRequest;
 import io.springsecurity.springsecurityjwt.models.AuthenticationResponse;
 import io.springsecurity.springsecurityjwt.util.JwtUtil;
@@ -8,12 +9,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.security.Principal;
 
 @RestController
 public class HelloController {
@@ -28,8 +32,20 @@ public class HelloController {
     private JwtUtil jwtTokenUtil;
 
     @RequestMapping( "/hello")
-    public String hello(){
+    public String hello(Authentication auth){
+        String principal = auth.getPrincipal().toString();
+        System.out.println(principal);
         return "Hello World";
+    }
+
+    @RequestMapping("/roleFIRST")
+    public String roleFirst(){
+        return "Role First!";
+    }
+
+    @RequestMapping("/roleSECOND")
+    public String roleSecond(){
+        return "Role Second!";
     }
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
