@@ -6,6 +6,7 @@ import io.springsecurity.springsecurityjwt.models.AuthenticationResponse;
 import io.springsecurity.springsecurityjwt.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,11 +40,13 @@ public class HelloController {
     }
 
     @RequestMapping("/roleFIRST")
+    @PreAuthorize("hasAuthority('FIRST')")
     public String roleFirst(){
         return "Role First!";
     }
 
     @RequestMapping("/roleSECOND")
+    @PreAuthorize("hasAuthority('SECOND')")
     public String roleSecond(){
         return "Role Second!";
     }

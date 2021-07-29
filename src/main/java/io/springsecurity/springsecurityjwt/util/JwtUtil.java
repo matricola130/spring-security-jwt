@@ -18,7 +18,7 @@ public class JwtUtil {
 
     public String generateToken(UserDetails userDetails){
         Map<String,Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
+        return createToken(claims, "10");
     }
 
     private String createToken(Map<String,Object> claims, String subject){
@@ -39,7 +39,7 @@ public class JwtUtil {
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     }
 
-    public String extractUsername(String token){
+    public String extractUserId(String token){
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -52,8 +52,8 @@ public class JwtUtil {
     }
 
     public boolean validateToken(String token, UserDetails userDetails){
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        final String user_id = extractUserId(token);
+        return (user_id.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
 
